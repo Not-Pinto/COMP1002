@@ -37,6 +37,7 @@ def fibonnaciRecursive(n):
         fibVal = fibonnaciRecursive(n-1) + fibonnaciRecursive (n-2)
     return fibVal
 
+print()
 facOrFib = None
 while facOrFib is None:
     try: 
@@ -90,4 +91,4 @@ else:
     else:
         result = fibonnaciRecursive(n)
 
-print ("\nResult:", result)
+print ("\nResult:", result, "\n")
