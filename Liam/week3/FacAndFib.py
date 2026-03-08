@@ -49,6 +49,8 @@ while facOrFib is None:
             print("Please only enter an int, 1 or 2, Error: OutOfRange")
             facOrFib = None
 
+print()
+
 IteOrRec = None
 while IteOrRec is None:
     try: 
@@ -61,6 +63,8 @@ while IteOrRec is None:
             print("Please only enter an int, 1 or 2, Error: OutOfRange")
             IteOrRec = None
     
+print()
+
 n = None 
 while n is None:
     try: 
@@ -73,13 +77,17 @@ while n is None:
             print("Please only enter a posive int, Error: OutOfRange")
             n = None  
 
+print()
+
 if facOrFib == 1: 
     if IteOrRec == 1: 
-        factorialIterative(n)
+        result = factorialIterative(n)
     else:
-        factorialRecursive(n)
+        result = factorialRecursive(n)
 else: 
     if IteOrRec == 1: 
-        fibonnaciIterative(n)
+        result = fibonnaciIterative(n)
     else:
-        fibonnaciRecursive(n)
+        result = fibonnaciRecursive(n)
+
+print ("\nResult:", result)
