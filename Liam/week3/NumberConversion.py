@@ -1,7 +1,6 @@
-import numpy as np
 import timeit
 
-def input_checker(message, min_output , max_output):
+def input_checker(message, min_output, max_output):
     output = None
     while output is None:
         print(message)
@@ -18,10 +17,10 @@ def input_checker(message, min_output , max_output):
             print("Please only input integers")
     return output
 
+
 def numberConversion(num, base):
-    digits = np.array(['0','1','2','3','4','5','6','7',
-                       '8','9','A','B','C','D','E','F'])
-    while num < base:
+    digits = "0123456789ABCDEF"
+    if num < base:
         return digits[num]
     return numberConversion(num // base, base) + digits[num % base]
 
@@ -34,10 +33,13 @@ base = input_checker("What base would you like? (2-16)", 2, 16)
 print()
 value = input_checker("What vaule do you want to convert? (pos int only)", 0, None)
 
-startTime = timeit.default_timer()
-result = numberConversion(value, base)
-endTime = timeit.default_timer()
+try: 
+    start_time = timeit.default_timer()
+    result = numberConversion(value, base)
+    end_time = timeit.default_timer()
 
-print()
-print("Result:", result)
-print("Time:", (endTime - startTime), "\n")
+    print()
+    print("Result:", result)
+    print("Time:", (end_time - start_time), "\n")
+except RecursionError as err:
+    print("Max recursion depth reached (n is too large), Error:", err)

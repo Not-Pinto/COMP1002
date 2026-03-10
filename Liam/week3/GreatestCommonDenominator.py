@@ -1,6 +1,6 @@
 import timeit
 
-def input_checker(message, min_output , max_output):
+def input_checker(message, min_output, max_output):
     output = None
     while output is None:
         print(message)
@@ -17,15 +17,11 @@ def input_checker(message, min_output , max_output):
             print("Please only input integers")
     return output
 
-print()
-first_value = input_checker("First value, (positive int only)", 0, None)
-print()
-second_value = input_checker("Second value, (positive int only)", 0, None)
 
-def gcd(A, B):
-    if B == 0: 
-        return A
-    return gcd(B, A%B)
+def gcd(first_value, second_value):
+    if second_value == 0: 
+        return first_value
+    return gcd(second_value, first_value % second_value)
 
 '''
 Reference:
@@ -36,8 +32,14 @@ used from lines 25 to 28
 '''
 
 print()
-startTime = timeit.default_timer()
+first_value = input_checker("First value, (positive int only)", 0, None)
+print()
+second_value = input_checker("Second value, (positive int only)", 0, None)
+print()
+
+start_time = timeit.default_timer()
 result = gcd(first_value, second_value)
-endTime = timeit.default_timer()
+end_time = timeit.default_timer()
+
 print("Result:", result)
-print("Time:", (str(endTime - startTime) + "\n"))
+print("Time:", (end_time - start_time), "\n")
