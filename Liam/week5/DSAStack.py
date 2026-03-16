@@ -1,3 +1,8 @@
+# Adapted from my submission for Practical 3 Stacks and Queues
+# can be found on blackborad under the submision link for practical 
+# 3 in the DSAStack.py file
+
+
 from DSALinkedList import DSALinkedList
 
 
