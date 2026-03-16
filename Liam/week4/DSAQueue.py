@@ -21,7 +21,7 @@ class DSAQueue():
     
 
 
-class shuffle_queue(DSAQueue):
+class ShuffleQueue(DSAQueue):
     
     def __init__(self, size=10):
         super().__init__(size)
@@ -48,7 +48,7 @@ class shuffle_queue(DSAQueue):
 
 
 
-class circular_queue(DSAQueue):
+class CircularQueue(DSAQueue):
     def __init__(self, size=10):
         super().__init__(size)
         self.head = 0
