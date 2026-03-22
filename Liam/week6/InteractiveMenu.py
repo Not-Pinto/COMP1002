@@ -83,6 +83,7 @@ while exit == False:
                 display = mytree.post_order()
 
             print("\nTree:")
-            for i in range(display.get_count() - 1):
-                print(display.dequeue(), end=", ")
-            print(display.dequeue())
+            try:
+                display.print_queue()
+            except ValueError:
+                print("The Tree is empty")

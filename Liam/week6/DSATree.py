@@ -205,3 +205,17 @@ class DSABinarySearchTree():
         if self.root is None:
             return True
         return False
+    
+
+    def balance(self):
+        if self.root is None:
+            return 100
+        left = self.height_rec(self.root.get_left())
+        right = self.height_rec(self.root.get_right())
+
+        if left > right:
+            balance = int((1 - (left - right/left)) * 100)
+        else:
+            balance = int((1 - (right - left/right)) * 100)
+
+        
