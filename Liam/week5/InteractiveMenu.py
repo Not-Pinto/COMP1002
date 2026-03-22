@@ -15,7 +15,7 @@ while exit == False:
                 print("\nOut of range")
                 selection1 = None
         except ValueError: 
-            print("\nIntigers only")
+            print("\nIntegers only")
         
     if selection1 == (4):
         exit = True
@@ -28,7 +28,7 @@ while exit == False:
                 selection2 = int(input("Please enter 1 or 2: "))
                 if 1 > selection2 or selection2 > 2:
                     print("\nOut of range")
-                    selection1 = None
+                    selection2 = None
             except ValueError: 
                 print("\nIntigers only")
 
@@ -54,7 +54,9 @@ while exit == False:
             print("\nThe list is currently empty")
         else:
             print()
-            for i in range(mylist.list_length()):
-                print(mylist.peek_first(), end="  ")
+            for i in range(mylist.list_length() - 1):
+                print(mylist.peek_first(), end=", ")
                 mylist.insert_last(mylist.remove_first())
-            print()
+            print(mylist.peek_first())
+            mylist.insert_last(mylist.remove_first())
+
