@@ -4,6 +4,15 @@ from DSATree import DSABinarySearchTree, InvalidValueError, InvalidInputError
 mytree = DSABinarySearchTree()
 exit = False 
 
+
+def print_queue(queue):
+        for i in range(queue.get_count() - 1):
+            print(queue.peek(), end=", ")
+            queue.dequeue()
+        print(queue.peek())
+        queue.dequeue()
+
+
 print("\n\nInteracive Menu for DSATree")
 
 while exit == False:
@@ -84,6 +93,6 @@ while exit == False:
 
             print("\nTree:")
             try:
-                display.print_queue()
+                print_queue(display)
             except ValueError:
                 print("The Tree is empty")

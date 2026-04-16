@@ -3,6 +3,14 @@ from DSAQueue import DSAQueue
 
 
 
+def print_queue(queue):
+        for i in range(queue.get_count() - 1):
+            print(queue.peek(), end=", ")
+            queue.dequeue()
+        print(queue.peek())
+        queue.dequeue()
+
+
 def tree_test():
     print("\nTest for DSATree\n")
     tree = DSABinarySearchTree()
@@ -35,39 +43,44 @@ def tree_test():
     print("Checking min method, expected 20:", tree.min())
     print("Checking max method, expected 80:", tree.max())
     print("Checking height method, expected 2:", tree.height())
-    print("Checking balance method:", tree.balance())
+    print("Checking balance method, expected 100:", tree.balance())
 
     print("\nChecking in_order, expected D, B, E, A, F, C, G")
     display = tree.in_order()
-    display.print_queue()
+    print_queue(display)
+
 
     print("\nChecking pre_order, expected A, B, D, E, C, F, G")
     display = tree.pre_order()
-    display.print_queue()
+    print_queue(display)
+
 
     print("\nChecking post_order, expected D, E, B, F, G, C, A")
     display = tree.post_order()
-    display.print_queue()
+    print_queue(display)
 
     print("\nChecking delete method (no children)")
     print("Deleting key 20 (D)")
     tree.delete(20)
     print("Checking in_order and confirming delete, expected B, E, A, F, C, G")
     display = tree.in_order()
-    display.print_queue()
+    print_queue(display)
+    print("Checking balance method, expected 100:", tree.balance())
 
     print("\nChecking delete method (one child)")
     print("Deleting key 30 (B)")
     tree.delete(30)
     print("Checking in_order and delete, expected E, A, F, C, G")
     display = tree.in_order()
-    display.print_queue()
+    print_queue(display)
+  
 
     print("\nDeleting key 50 (A) (two children)")
     tree.delete(50)
     print("Checking in_order and delete, expected: E, F, C, G")
     display = tree.in_order()
-    display.print_queue()
+    print_queue(display)
+    print("Checking balance method, expected 50:", tree.balance())
 
     print("\nChecking error handling")
 
