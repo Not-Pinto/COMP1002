@@ -13,7 +13,21 @@ class DSAGraph():
     def add_vertex(self, lable, value=None):
         if self.has_vertex(lable):
             raise ValueError
-        self.verticies.insert_last(DSAGraphVertex(lable, value))
+        new_vertex = DSAGraphVertex(lable, value)
+        self.insert_vertex_sorted(new_vertex)
+
+
+    def insert_vertex_sorted(self, vertex):
+        inserted = False
+        for i in range(self.verticies.list_length()):
+            curr = self.verticies.remove_first()
+            if inserted == False:
+                if vertex.get_label() < curr.get_label():
+                    self.verticies.insert_last(vertex)
+                    inserted = True
+            self.verticies.insert_last(curr)
+        if inserted == False:
+            self.verticies.insert_last(vertex)
 
 
     def remove_vertex(self, lable):
@@ -23,7 +37,7 @@ class DSAGraph():
             if curr != vertex:
                 for j in range(curr.links.list_length()):
                     adj = curr.links.peek_first()
-                    if adj == lable:
+                    if adj == vertex:
                         curr.links.remove_first()
                     else:
                         curr.links.insert_last(curr.links.remove_first())
@@ -33,21 +47,15 @@ class DSAGraph():
     def add_edge(self, lable1, lable2):
         vertex1 = self.get_vertex(lable1)
         vertex2 = self.get_vertex(lable2)
-        duplicate = False
-        for i in range(vertex1.links.list_length()):
-            if vertex1.links.peek_first() == vertex2:
-                duplicate = True
-            else:
-                vertex1.links.insert_last(vertex1.links.remove_first())
-        
-        if duplicate == True:
-            raise ValueError
-        
-        if vertex1 == vertex2:
-            raise ValueError
 
-        vertex1.add_link(lable2)
-        vertex2.add_link(lable1)
+        if vertex1 == vertex2:
+            raise ValueError("Cannot add edge to itself")
+
+        if self.is_adjacent(lable1, lable2):
+            raise ValueError("Can not create duplicate edges")
+
+        vertex1.add_link(vertex2)
+        vertex2.add_link(vertex1)
 
 
     def remove_edge(self,lable1, lable2):
@@ -55,13 +63,13 @@ class DSAGraph():
         vertex2 = self.get_vertex(lable2)
         removed = False
         for i in range(vertex1.links.list_length()):
-            if vertex1.links.peek_first() == lable2:
+            if vertex1.links.peek_first() == vertex2:
                 vertex1.links.remove_first()
                 removed = True
             else:
                 vertex1.links.insert_last(vertex1.links.remove_first())
         for i in range(vertex2.links.list_length()):
-            if vertex2.links.peek_first() == lable1:
+            if vertex2.links.peek_first() == vertex1:
                 vertex2.links.remove_first()
             else:
                 vertex2.links.insert_last(vertex2.links.remove_first())
@@ -109,14 +117,15 @@ class DSAGraph():
 
     def is_adjacent(self, lable1, lable2):
         vertex1 = self.get_vertex(lable1)
+        vertex2 = self.get_vertex(lable2)
         is_adjacent = False
+
         for i in range(vertex1.links.list_length()):
             curr = vertex1.links.remove_first()
             vertex1.links.insert_last(curr)
-            if curr == lable2:
+            if curr == vertex2:
                 is_adjacent = True
         return is_adjacent
-
 
     def display_as_list(self):
         if self.verticies.is_empty():
@@ -131,10 +140,10 @@ class DSAGraph():
                 else:
                     for j in range(curr.links.list_length() - 1):
                         adj = curr.links.remove_first()
-                        print(adj, end=", ")
+                        print(adj.get_label(), end=", ")
                         curr.links.insert_last(adj)
                     adj = curr.links.remove_first()
-                    print(adj)
+                    print(adj.get_label())
                     curr.links.insert_last(adj)
                 self.verticies.insert_last(self.verticies.remove_first())
                 
@@ -205,6 +214,28 @@ class DSAGraph():
         return T
 
 
+    def depth_first_search(self):
+        T = DSAQueue()
+        S = DSAStack()
+        self.clear_visited()
+        if self.verticies.is_empty():
+            raise ValueError
+        v = self.verticies.peek_first()
+        v.set_visited()
+        S.push(v)
+        while not S.is_empty():
+            w = self.get_next_unvisited(v)
+            if w is not None:
+                T.enqueue(v)
+                T.enqueue(w)
+                w.set_visited()
+                S.push(w)
+                v = w
+            else:
+                v = S.pop()
+        return T
+
+
     def get_next_unvisited(self, vertex):
         next_vertex = None
 
@@ -218,37 +249,20 @@ class DSAGraph():
         return next_vertex
 
 
-    def depth_first_search(self):
-        T = DSAQueue()
-        S = DSAStack()
-        self.clear_visited()
-        if self.verticies.is_empty():
-            raise ValueError
-        v = self.verticies.peek_first()
-        v.set_visited()
-        S.push(v)
-
-        while not S.is_empty():
-            w = self.get_next_unvisited(v)
-
-            if w is not None:
-                T.enqueue(v)
-                T.enqueue(w)
-                w.set_visited()
-                S.push(w)
-                v = w
-            else:
-                v = S.pop()
-        return T
-
-
     def print_search(self, queue):
-        for i in range(queue.get_count() - 1):
-            print(queue.peek(), end=", ")
+        for i in range(self.verticies.list_length() - 1):
+            vertex = queue.peek()
+            print(vertex.get_label(), end="-")
             queue.enqueue(queue.dequeue())
-        print(queue.peek())
+            vertex = queue.peek()
+            print(vertex.get_label(), end=", ")
+            queue.enqueue(queue.dequeue())
+        vertex = queue.peek()
+        print(vertex.get_label(), end="-")
         queue.enqueue(queue.dequeue())
-         
+        vertex = queue.peek()
+        print(vertex.get_label(), end=", ")
+        queue.enqueue(queue.dequeue())
 
 
 class DSAGraphVertex():
@@ -261,7 +275,16 @@ class DSAGraphVertex():
 
     
     def add_link(self, vertex):
-        self.links.insert_last(vertex)
+        inserted = False
+        for i in range(self.links.list_length()):
+            curr = self.links.remove_first()
+            if inserted == False:
+                if vertex.get_label() < curr.get_label():
+                    self.links.insert_last(vertex)
+                    inserted = True
+            self.links.insert_last(curr)
+        if inserted == False:
+            self.links.insert_last(vertex)
         
 
     def get_label(self):

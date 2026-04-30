@@ -41,17 +41,21 @@ def graph_test():
     print("Adjacent to A, expected B, C")
     adj = graph.get_adjacent("A")
     for i in range(adj.list_length() - 1):
-        print(adj.peek_first(), end=", ")
+        vertex = adj.peek_first()
+        print(vertex.get_label, end=", ")
         adj.insert_last(adj.remove_first())
-    print(adj.peek_first())
+    vertex = adj.peek_first()
+    print(vertex.get_label, end=", ")
     adj.insert_last(adj.remove_first())
 
     print("Adjacent to D, expected B, C, E")
     adj = graph.get_adjacent("D")
     for i in range(adj.list_length() - 1):
-        print(adj.peek_first(), end=", ")
+        vertex = adj.peek_first()
+        print(vertex.get_label, end=", ")
         adj.insert_last(adj.remove_first())
-    print(adj.peek_first())
+    vertex = adj.peek_first()
+    print(vertex.get_label, end=", ")
     adj.insert_last(adj.remove_first())    
 
     print("\nChecking display_as_list")
@@ -81,8 +85,8 @@ def graph_test():
     print("Checking has_vertex D, expected False:", graph.has_vertex("D"))
     print("Checking get_vertex_count, expected 4:", graph.get_vertex_count())
 
-    print("Checking adjacencies involving removed vertex")
-    print("B adjacent to D should now error or be False depending on your implementation")
+    print("Checking adjacencies of removed vertex")
+    print("Should cause an error")
     try:
         print(graph.is_adjacent("B", "D"))
     except ValueError:
