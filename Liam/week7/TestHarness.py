@@ -11,7 +11,7 @@ def graph_test():
     graph.add_vertex("A")
     graph.add_vertex("B")
     graph.add_vertex("C")
-    graph.add_vertex("D")
+    graph.add_vertex("D") 
     graph.add_vertex("E")
 
     print("Checking has_vertex method")
@@ -42,20 +42,20 @@ def graph_test():
     adj = graph.get_adjacent("A")
     for i in range(adj.list_length() - 1):
         vertex = adj.peek_first()
-        print(vertex.get_label, end=", ")
+        print(vertex.get_label(), end=", ")
         adj.insert_last(adj.remove_first())
     vertex = adj.peek_first()
-    print(vertex.get_label, end=", ")
+    print(vertex.get_label())
     adj.insert_last(adj.remove_first())
 
     print("Adjacent to D, expected B, C, E")
     adj = graph.get_adjacent("D")
     for i in range(adj.list_length() - 1):
         vertex = adj.peek_first()
-        print(vertex.get_label, end=", ")
+        print(vertex.get_label(), end=", ")
         adj.insert_last(adj.remove_first())
     vertex = adj.peek_first()
-    print(vertex.get_label, end=", ")
+    print(vertex.get_label())
     adj.insert_last(adj.remove_first())    
 
     print("\nChecking display_as_list")
@@ -64,10 +64,10 @@ def graph_test():
     print("\nChecking display_as_matrix")
     graph.display_as_matrix()
 
-    print("Checking DFS")
+    print("\nChecking DFS")
     graph.print_search(graph.depth_first_search())
 
-    print("Checking BFS")
+    print("\nChecking BFS")
     graph.print_search(graph.breadth_first_search())
 
     print("\nChecking remove_edge method")
@@ -85,24 +85,23 @@ def graph_test():
     print("Checking has_vertex D, expected False:", graph.has_vertex("D"))
     print("Checking get_vertex_count, expected 4:", graph.get_vertex_count())
 
-    print("Checking adjacencies of removed vertex")
+    print("\nChecking adjacencies of removed vertex")
     print("Should cause an error")
     try:
         print(graph.is_adjacent("B", "D"))
     except ValueError:
         print("Error received correctly")
 
-    print("Checking get_edge_count after removing D")
-    print("Expected 1 if only A-B remains and E becomes isolated:", graph.get_edge_count())
+    print("\nChecking get_edge_count after removing D")
+    print("Expected 1:", graph.get_edge_count())
 
-    print("\nChecking display_as_list after removing vertex D")
+    print("\nChecking display_as_list after removing vertex D\n")
     graph.display_as_list()
 
-    print("\nChecking display_as_matrix after removing vertex D")
+    print("\nChecking display_as_matrix after removing vertex D\n")
     graph.display_as_matrix()
 
     print("\nChecking error handling")
-
     print("Attempting to add duplicate vertex A")
     print("Should receive ValueError")
     try:
@@ -110,28 +109,28 @@ def graph_test():
     except ValueError:
         print("Error received correctly")
 
-    print("Attempting to add edge with non-existent vertex")
+    print("\nAttempting to add edge with vertex that has not been created")
     print("Should receive ValueError")
     try:
         graph.add_edge("A", "Z")
     except ValueError:
         print("Error received correctly")
 
-    print("Attempting to remove edge that does not exist")
+    print("\nAttempting to remove edge that does not exist")
     print("Should receive ValueError")
     try:
         graph.remove_edge("A", "E")
     except ValueError:
         print("Error received correctly")
 
-    print("Attempting to remove vertex that does not exist")
+    print("\nAttempting to remove vertex that does not exist")
     print("Should receive ValueError")
     try:
         graph.remove_vertex("Z")
     except ValueError:
         print("Error received correctly")
 
-    print("Attempting to add self-loop A-A")
+    print("\nAttempting to add an edge from a vertex to itself")
     print("Should receive ValueError")
     try:
         graph.add_edge("A", "A")

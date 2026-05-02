@@ -6,13 +6,13 @@ from DSAStack import DSAStack
 class DSAGraph():
 
 
-    def __init__(self):
+    def __init__(self): 
         self.verticies = DSALinkedList()
 
 
     def add_vertex(self, lable, value=None):
         if self.has_vertex(lable):
-            raise ValueError
+            raise ValueError(lable, "is already in use")
         new_vertex = DSAGraphVertex(lable, value)
         self.insert_vertex_sorted(new_vertex)
 
@@ -74,7 +74,7 @@ class DSAGraph():
             else:
                 vertex2.links.insert_last(vertex2.links.remove_first())
         if removed == False:
-            raise ValueError
+            raise ValueError("No edge between", lable1, "and", lable2)
 
 
     def has_vertex(self, lable):
@@ -106,7 +106,7 @@ class DSAGraph():
             if curr.get_label() == label:
                 vertex = curr
         if vertex == None:
-            raise ValueError 
+            raise ValueError("Vertex", label, "does not exist")
         return vertex
 
 
@@ -196,7 +196,7 @@ class DSAGraph():
 
         self.clear_visited()
         if self.verticies.is_empty():
-            raise ValueError
+            raise ValueError("Graph is empty")
 
         v = self.verticies.peek_first()
         v.set_visited()
@@ -219,7 +219,7 @@ class DSAGraph():
         S = DSAStack()
         self.clear_visited()
         if self.verticies.is_empty():
-            raise ValueError
+            raise ValueError("Graph is empty")
         v = self.verticies.peek_first()
         v.set_visited()
         S.push(v)
@@ -250,7 +250,7 @@ class DSAGraph():
 
 
     def print_search(self, queue):
-        for i in range(self.verticies.list_length() - 1):
+        for i in range(self.verticies.list_length() - 2):
             vertex = queue.peek()
             print(vertex.get_label(), end="-")
             queue.enqueue(queue.dequeue())
